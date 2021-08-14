@@ -1,412 +1,212 @@
-   #include<LiquidCrystal.h>
-
+   #include <LCD5110_Graph.h>
+   #include<EEPROM.h>
    #include<Wire.h>
-
    #include<Rtc_Pcf8563.h>
 
    Rtc_Pcf8563 rtc;
 
-   char* days[7] = { "Sun", "Mon","Tue", "Wed", "Thu","Fri","Sat"};
+   char* days[7] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+   LCD5110 myGLCD(13,11,10,9,7);
+   extern uint8_t SmallFont[];
+   extern uint8_t TinyFont[];
+   extern uint8_t MediumNumbers[];
 
-   LiquidCrystal lcd(4,5,13,12,11,10);
+   long int sense=3,rot=0,d=0,b=0,tog=6,x=0,u=0,tpin=A1,tempi=0,dt=0,ch=0;
 
-   long int sense=3,rot=0,d=0,b=0,tog=6,x=0,u=0,tpin=A0,tempi=0;
+   float sp=000.00,distance=000.00,tmd=0,asp=000.00,temp,diff =00.00;
 
-   float sp=0,distance=0,tmd=0,asp=0.00,temp;
-
-   int fl=0,msg=0,i=0,rad=31;
+   int fl=0,msg=0,i=0,rad=31,m=0;
 
    char h[42];
 
-   boolean togvl=LOW,togv;
-
-   boolean prev;
-
-
-
-
 
 void setup()
-
-
   {
-
+      rad=EEPROM.read(0);
 
       Serial.begin(9600);
 
-      lcd.begin(16,2);
-
-      lcd.clear();
-
-      pinMode(sense,INPUT);
-
-      pinMode(tpin,INPUT);
-
-      togv=digitalRead(tog);
-     
-      lcd.setCursor(3,0);
-      lcd.write("Welcome");
-      lcd.setCursor(11,0);
-      lcd.write("to");
-      lcd.setCursor(0,1);
-      lcd.write("Bicycle Computer");
-      delay(4000);
-      lcd.setCursor(0,0);
-      lcd.clear();
-      lcd.write("Enter Radius(cm)");
-      lcd.setCursor(0,1);
-      lcd.write("0 for default");
-      
-      
-  while(1)
- {
-       rad=Serial.read();
-    if(togv != digitalRead(tog))
-     {
-      goto xy;
-     }
- }
-  xy:
-       if(rad==0)
-        {
-         rad=31;
-        }
-
-
-}
-
-
-
-
-void loop()
-
-
-{
-
-
-
-    if (Serial.available())
-
+       myGLCD.InitLCD();
+       pinMode(sense,INPUT);
+       pinMode(tpin,INPUT);
+       for(int i=-60;i<12;i++)
       {
-
-             msg=1;
-
-
-                    for(i=0;i<=41;i++)
-
-
-                             {
-
-                                h[i]=(char)0;
-
-                              }
-
-              i=0;
-
-
-      //    lcd.clear();
-
-
-
-
-
-
-      while (Serial.available() > 0)
-
-
-
-
-
-        {
-
-
-                h[i]=Serial.read();
-
-
-                            i++;
-
-        }
-       //  i=0;
-
-
-
-
-     }
-
-
-
-
-    prev=digitalRead(tog);
-
-
+        myGLCD.setFont(SmallFont);
+        myGLCD.print("WELCOME TO",i,12);
+        myGLCD.update();
+      }
+      for(int t=84;t>21;t--)
+      {
+        myGLCD.setFont(SmallFont);
+        myGLCD.print("BICYCLE ",t,20);
+        myGLCD.update();
+      }
+      for (int z=-48;z<19;z++)
+      {
+        myGLCD.setFont(SmallFont);
+        myGLCD.print("COMPUTER",z,29);
+        myGLCD.update();
+      }
+      delay(1000);
+      myGLCD.clrScr();  
+      myGLCD.setFont(SmallFont);
+ //   myGLCD.print(rtc.formatTime(),35,37);
+      rtc.getDate();
+      rtc.getTime();
+      myGLCD.print(days[rtc.getWeekday()],CENTER,12);
+      myGLCD.print(rtc.formatDate(),CENTER,24);
+      myGLCD.update();   
+      delay(4000);
+      myGLCD.clrScr();
+  }
+void loop()
+  {
+    
     temp=analogRead(tpin);//from lm35
-
     temp=(temp*500/1023.0);
-
-    tempi=temp;
+    tempi=temp;   
 
     attachInterrupt(1,det,RISING);//from hall effect sensor
+  
+  
+   
+      myGLCD.setFont(SmallFont);
+      myGLCD.printNumI(tempi,0,0,2,' ');
+      myGLCD.print("C ",14,0);
+      myGLCD.setFont(SmallFont);
+      myGLCD.print(rtc.formatTime(),35,0);
+      myGLCD.setFont(SmallFont);
+   // myGLCD.print(days[rtc.getWeekday()],CENTER,40 );
+      myGLCD.print(h,4,40);
+   // myGLCD.printNumF(diff,2,4,40,'.',6,' ');
+      myGLCD.update();
+      
+        
+       if(sp==0)
+     {   
+      myGLCD.setFont(SmallFont);
+      myGLCD.print("Avg.",7,9);
+      myGLCD.print("Speed",0,18);
+ 
+      if(dt==0)
+      {
+       
+        myGLCD.setFont(SmallFont);
+        myGLCD.print("(m/s)",40,15);
+                              
+      }
+      else
+     {
+      myGLCD.setFont(SmallFont);
+      myGLCD.printNumF(asp,2,40,15,'.',6,' ');
+     }
+     }
+     else
+     { 
+       myGLCD.setFont(SmallFont);
+       myGLCD.print("    ",7,9);
+       myGLCD.print("Speed",0,18);
+       if(dt==0)
+      {
+        myGLCD.setFont(SmallFont);
+        myGLCD.print("(m/s)",35,10);
+       
+      }
+      else
+     {
+   
+      myGLCD.setFont(SmallFont);
+      myGLCD.printNumF(sp,2,40,15,'.',6,' ');
+     }
+     }
+      myGLCD.setFont(SmallFont);
+      myGLCD.print("Dist.",2,30);
+       if(dt==0)
+      {
+        myGLCD.setFont(SmallFont);
+        myGLCD.print("(km)",40,30);
+       
+      }
+      else 
+      { 
+      myGLCD.setFont(SmallFont);
+      myGLCD.printNumF(distance,2,40,30,'.',6,' ');
+      }
+      myGLCD.update();
+      
+  
+      if(Serial.available())
+      { 
+        for(int g=0;g<20;g++)
+            {
+              myGLCD.clrScr();
+              h[g]=(char)0;
+            }    
+         while(Serial.available())
+         { 
+           // ch = 1;
+          h[m]=Serial.read();
+          if(h[m]=='~')
+          {
+            rad=Serial.read();
+            EEPROM.write(0,rad);
+          }
+          m++;
+         }
+     
+      }
+      m=0;
+      
 
-
-     if((millis()-b)>7000)
-
+ 
+Serial.println(asp);
+Serial.println(distance);
+Serial.println(sp); 
+//Serial.println(h);
+ //distance=(2*3.14*rad*rot)/100000;
+ //sp=(2*3.14*rad*10)/(tmd);    
+ if((millis()-b)>7000)
 
         {
-           sp=0;
-
-               asp=(distance*1000)/(b-x);
-
-               lcd.clear();
-
+          
+          sp=0;
+          if(b-x!=0)
+          asp=(distance*1000000)/(b-x); 
+        /*  myGLCD.setFont(SmallFont);
+          myGLCD.print("         ",40,15);
+          myGLCD.update();*/
+         
+          
         }
+    //   delay(1000);
+        }  
 
+      void det()
 
-
-     if (d>0)
-
-       {
-
-       //  sp=(2*3.14*rad)/(millis()-timeold);
-
-        // timeold=millis();
-
-     //    d=0;
-
-       }
-
-
-
-     if( digitalRead(tog) == LOW)
-
-           {
-
-//             if(prev==HIGH)
-
-             {
-
-
-               lcd.clear();
-
-
-             }
-
-
-            if (msg==1)
-
-            {
-
-             lcd.setCursor(15,1);
-
-             lcd.print("!");
-                     //message indication
-
-            }
-
-
-
-             if(sp==0)
-
-            {
-
-              lcd.setCursor(0,0);
-
-              lcd.print("Avg.speed");
-
-              lcd.setCursor(10,0);
-
-              lcd.print(asp);
-
-              lcd.setCursor(13,0);
-
-              lcd.print("m/s");
-
-            }
-
-
-
-              else
-
-            {
-
-              lcd.setCursor(0,0);
-
-              lcd.print("speed");
-
-              lcd.setCursor(6,0);
-
-              lcd.print(sp);
-
-              lcd.setCursor(13,0);
-
-              lcd.print("m/s");
-
-            }
-
-
-              lcd.setCursor(0,1);
-
-              lcd.print("dist(km)");
-
-              lcd.setCursor(9,1);
-
-              lcd.print(distance);
-
-              prev=digitalRead(tog);
-
-     }
-
-
-
-
-
-
-     else if(digitalRead(tog)==HIGH)//line no 111.
-
-
-            {
-
-
-
-            if(msg==1)
-
-
-                         {
-
-
-
-
-                            lcd.clear();
-
-                            lcd.print(h);
-                                                      
-                            togvl=HIGH;
-
-
-                         }
-
-
-
-
-                   else
-
-
-                {
-
-
-
-  //                if(prev==LOW)
-
-                   {
-
-                    lcd.clear();
-
-                   }
-
-
-                   lcd.setCursor(0,0);
-
-                   lcd.print("Temp");
-
-                   lcd.setCursor(5,0);
-
-                   lcd.print(tempi);
-
-                   lcd.setCursor(7,0);
-
-                   lcd.print("C");
-
-                   lcd.setCursor(11,0);
-
-                   lcd.print(days[rtc.getWeekday()]);
-
-                   lcd.setCursor(0,1);
-
-                   lcd.print(rtc.formatDate());
-
-                   lcd.setCursor(11,1);
-
-                   lcd.print(rtc.formatTime());
-
-                }
-
-
-              prev=digitalRead(tog);
-
-           }
-
-
-               if (digitalRead(tog)== LOW && togvl==HIGH)
-
-                {
-
-
-                     togvl=LOW;
-
-                     msg=0;
-
-                }
-
-
-
-
-                    Serial.println("dist");
-
-
-                    Serial.println(distance);
-
-               if(sp==0)
-
-                {
-
-
-                  Serial.println("avg.speed");
-
-                  Serial.println(asp);
-
-                }
-
-                else
-
-                 {
-
-
-                   Serial.println("speed");
-
-                   Serial.println(sp);
-
-                 }
-
-
-
-
-      }
-
-
-
-            void det()
-
-             {
-
-              if(u==4)
-
+{
+            
+              if(u==5)
                {
-
-                 x=millis();
-
+                x=millis();
                }
-
-
-                u++;
-
-                rot=rot+1;
-
-              //  distance=(2*3.14*rad*rot)/100000 
-              distance=rot;            
-              d=d+1;
+               // u++;
+               // rot=rot+1;
+if (u > 4)
+             { 
+               rot=rot+1; 
+               distance=(2*3.14*rad*rot)/100000; 
+              //distance=rot;            
+             // d=d+1;
                 
                 tmd=millis()-b;
-                 
+                             
                 b=millis();
- // sp=(2*3.14*rad)*1000/tmd;
- sp=1000/tmd;
+                sp=(2*3.14*rad*10)/(tmd);
+               // diff = (b-x)/1000;
+              }
+              u++;
+ // sp=(2*3.14*rad*10)/(tmd);
+// sp=1000/(tmd);
+  dt = 1;
              }
+
