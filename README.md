@@ -17,8 +17,7 @@ will be attach on the front wheel of bike.
 <img width="50%" height="20%" alt="Internal" class="center" src="https://user-images.githubusercontent.com/13674791/129457012-3feea864-eef0-4ae9-8a0d-58221df6cd29.jpeg">
 <!-- ![Internal](https://user-images.githubusercontent.com/13674791/129457012-3feea864-eef0-4ae9-8a0d-58221df6cd29.jpeg =250) -->
 
-### Running Image
-
+### Running
 <img width="50%" height="20%" alt="Internal" class="center" src="https://user-images.githubusercontent.com/13674791/129457154-66ed2b4a-5d63-4289-9853-822e09c77545.jpeg">
 <img width="50%" height="20%" alt="Internal" class="center" src="https://user-images.githubusercontent.com/13674791/129457007-3f3acb8a-eeb7-4a61-8c7e-696c76c677ea.jpeg">
 <!-- ![Running](https://user-images.githubusercontent.com/13674791/129457007-3f3acb8a-eeb7-4a61-8c7e-696c76c677ea.jpeg) -->
