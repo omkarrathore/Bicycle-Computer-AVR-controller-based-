@@ -14,15 +14,17 @@ number of caller will be display on the nokia lcd. This bicycle computer can be 
 various bikes it will be mount on the handle of the bike and the sensor and the two magnets
 will be attach on the front wheel of bike. 
 ### Internal Ciruit
-<img width="50%" height="20%" alt="Internal" class="center" src="https://user-images.githubusercontent.com/13674791/129457012-3feea864-eef0-4ae9-8a0d-58221df6cd29.jpeg">
+<p float="left">
+<img width=40%" height="50%" alt="Internal1" class="center" src="https://user-images.githubusercontent.com/13674791/129477843-5f6b21fb-90d7-43b1-92c7-ba13f5c67cee.jpeg"> 
+<img width="41.5%" height="50%" alt="Internal2" class="center" src="https://user-images.githubusercontent.com/13674791/129477458-47bf3009-9ef7-4856-86f0-a4897182f0e5.jpeg">
+</p>
+
 <!-- ![Internal](https://user-images.githubusercontent.com/13674791/129457012-3feea864-eef0-4ae9-8a0d-58221df6cd29.jpeg =250) -->
 
 ### Running
-<img width="50%" height="20%" alt="Internal" class="center" src="https://user-images.githubusercontent.com/13674791/129457154-66ed2b4a-5d63-4289-9853-822e09c77545.jpeg">
-<img width="50%" height="20%" alt="Internal" class="center" src="https://user-images.githubusercontent.com/13674791/129457007-3f3acb8a-eeb7-4a61-8c7e-696c76c677ea.jpeg">
-<!-- ![Running](https://user-images.githubusercontent.com/13674791/129457007-3f3acb8a-eeb7-4a61-8c7e-696c76c677ea.jpeg) -->
-
-### Installed on bicycle
-<img width="50%" height="20%" alt="Internal" class="center" src="https://user-images.githubusercontent.com/13674791/129457028-56f3015a-5761-46a3-91a5-a53be0964c97.jpeg">
+<p float="left">
+<img width="40%" height="20%" alt="Internal" class="center" src="https://user-images.githubusercontent.com/13674791/129478022-04998af7-5031-4280-8887-e87f835aa252.jpeg">
+<img width="41.5%" height="20%" alt="Internal" class="center" src="https://user-images.githubusercontent.com/13674791/129477985-460ac7b5-d204-4085-83ed-6dc1bf25ede1.jpeg">
+</p>
 
 <!-- ![Install_1](https://user-images.githubusercontent.com/13674791/129457028-56f3015a-5761-46a3-91a5-a53be0964c97.jpeg) -->
