@@ -1,5 +1,5 @@
 # Bicycle Computer
-
+[Click here for demo](https://youtu.be/ybf3fTNi8ms)
 ## Description
 It is an arduino based smart digital speedometer plus odometer for bikes. It have a nokia
 5110 lcd display, two small cyclindrical magnet, a sensor and a bluetooth. It displays the
@@ -12,7 +12,7 @@ and that message will be display on nokia lcd. Also if your phone has connected 
 bicycle computer and someone made a call on your phone then due to this app the moblie
 number of caller will be display on the nokia lcd. This bicycle computer can be used on
 various bikes it will be mount on the handle of the bike and the sensor and the two magnets
-will be attach on the front wheel of bike. 
+will be attach on the front wheel of bike.
 ### Internal Ciruit
 <p float="left">
 <img width=40%" height="50%" alt="Internal1" class="center" src="https://user-images.githubusercontent.com/13674791/129477843-5f6b21fb-90d7-43b1-92c7-ba13f5c67cee.jpeg"> 
